@@ -5,3 +5,5 @@ Universitas Gadjah Mada.
 
 Implementasi:
 1. *Learning Vector Quantization* (LVQ)
+2. *Perceptron* (satu lapis, hanya untuk klasifikasi biner saja, diambil dari buku Fausett)
+3. *Multi-layer Perceptron* (maksimal dua lapis, hanya untuk klasifikasi biner saja)
