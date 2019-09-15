@@ -3,7 +3,7 @@ import pandas as pd
 import numpy as np
 
 from JST import MultiLayerPerceptron as MLP
-from utilities import DataScaler, train_test_split, OneHotEncoder
+from utilities import DataScaler, train_test_split
 from functions import accuracy
 
 # import data

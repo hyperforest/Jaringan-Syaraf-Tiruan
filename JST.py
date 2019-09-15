@@ -195,6 +195,7 @@ class MultiLayerPerceptron:
 
 			print('Epoch [{}]\tloss: {:.4f}\tacc: {:.4f}'.format(e, loss, acc))
 
+		print('Elapsed time: {:.2f} s.'.format(time.time() - now))
 		return hist
 
 	def get_weights(self):
@@ -209,8 +210,8 @@ class MultiLayerPerceptron:
 
 class Perceptron:
 	def __init__(self, input_shape, init='random', random_state=None):
-		self.input_shape = input_shape
-		self.random_state = random_state
+		self.__input_shape = input_shape
+		self.__random_state = random_state
 
 		if init == 'random':
 			np.random.seed(random_state)
@@ -235,9 +236,12 @@ class Perceptron:
 		y_pred = self.predict(X).ravel()
 		return accuracy(y, y_pred)
 
-	def fit(self, X, y, epochs, lr=0.01):
+	def fit(self, X, y, epochs, lr=0.01, shuffle=True):
 		now = time.time()
 		hist = {'acc':[]}
+
+		if shuffle:
+			X, y = data_shuffle(X, y, random_state=self.__random_state)
 
 		for e in range(1, 1 + epochs):
 			for i in range(X.shape[0]):
