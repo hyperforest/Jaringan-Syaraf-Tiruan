@@ -1,7 +1,5 @@
 import numpy as np
-
-def accuracy(y_true, y_pred):
-    return ((y_true == y_pred).sum()) / len(y_true)
+import pickle
 
 def train_test_split(X, y, test_size=0.2, random_state=None):
     n_classes = len(np.unique(y))
@@ -37,6 +35,14 @@ def data_shuffle(X, y, random_state=None):
     np.random.shuffle(index_shuffle)
     return (X[index_shuffle], y[index_shuffle])
 
+def save_model(model, filename):
+    with open(filename, 'wb') as f:
+        pickle.dump(model, f, protocol=-1)
+
+def load_model(filename):
+    with open(filename, 'rb') as f:
+        return pickle.load(f)
+
 class DataScaler():
     def __init__(self):
         pass
@@ -54,3 +60,24 @@ class DataScaler():
 
     def inverse_transform(self, X):
         return X * (self.max_array - self.min_array) + self.min_array
+
+class OneHotEncoder():
+    def __init__(self):
+        pass
+
+    def fit(self, x):
+        self.unique = len(np.unique(x))
+        self.mat = np.eye(self.unique, dtype=np.int)
+
+    def transform(self, x):
+        ret = [0] * len(x)
+        for i in range(len(x)):
+            ret[i] = self.mat[x[i]]
+        return np.array(ret)
+
+    def fit_transform(self, x):
+        self.fit(x)
+        return self.transform(x)
+
+    def inverse_transform(self, x):
+        return np.where((self.mat == x).all(axis=1))[0][0]    
